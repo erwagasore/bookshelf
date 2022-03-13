@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from http import HTTPStatus
 from flask import request, abort
 from marshmallow import Schema, fields
@@ -12,7 +14,7 @@ schema = BookSchema()
 
 class RequestBookSchema(Schema):
     title = fields.Str(required=True)
-    email = fields.Email()
+    email = fields.Email(required=True)
 
 
 @books.route("/request", methods=['POST'])
@@ -32,6 +34,7 @@ def get_request():
     book = Book.query.filter_by(title=title).first_or_404()
 
     book.available = False
+    book.timestamp = datetime.now().isoformat()
     db.session.commit()
 
     return schema.dump(book)
@@ -48,7 +51,7 @@ def read(id):
 @books.route("/request", methods=['GET'])
 def list():
     """Get all book requests"""
-    available_books = Book.query.filter_by(available=True)
+    available_books = Book.query.all()
 
     return {
         'books': schema.dump(available_books, many=True)

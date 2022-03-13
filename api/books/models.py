@@ -9,11 +9,9 @@ class Book(db.Model):
     title = db.Column(db.String)
     timestamp = db.Column(db.String)
 
-    def __init__(self, id, available, title, timestamp):
-        self.id = id
+    def __init__(self, title, available=True):
         self.available = available
         self.title = title
-        self.timestamp = timestamp
 
 
 class BookSchema(marshmallow.SQLAlchemyAutoSchema):
