@@ -1,8 +1,12 @@
+import os
 from http import HTTPStatus
 
 from flask import Flask, jsonify
 from flask.cli import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+
+
+db = SQLAlchemy()
 
 
 def bad_request(e):
@@ -45,13 +49,16 @@ def create_api():
 
 
     # configurations
-    api.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{API_DIR}bookshelf.db'
+    PROJECT_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    api.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{PROJECT_DIR}/bookshelf.db'
     api.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    db = SQLAlchemy()
 
     # initialize extensions
     db.init_app(api)
+
+    # register blueprints
+    from api.books import books
+    api.register_blueprint(books)
 
     # register errorhandlers
     # TODO: add more error handlers to cover all api excptions

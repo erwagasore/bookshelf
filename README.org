@@ -1,5 +1,9 @@
 #+TITLE: Bookshelf
 
 * Setup
+** Requirements
+To successfully run this application locally you have to install
+- SQLite
+- Poetry
 
 * API
