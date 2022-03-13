@@ -4,15 +4,16 @@ from http import HTTPStatus
 from flask import Flask, jsonify
 from flask.cli import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 
 
 db = SQLAlchemy()
-
+marshmallow = Marshmallow()
 
 def bad_request(e):
     return {
         'error': HTTPStatus.BAD_REQUEST.phrase,
-        'message': HTTPStatus.BAD_REQUEST.description
+        'message': e
     }, HTTPStatus.BAD_REQUEST.value
 
 
@@ -47,6 +48,7 @@ def create_api():
 
     # initialize extensions
     db.init_app(api)
+    marshmallow.init_app(api)
 
     # register blueprints
     from api.books import books
