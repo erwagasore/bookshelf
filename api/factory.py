@@ -10,39 +10,31 @@ db = SQLAlchemy()
 
 
 def bad_request(e):
-    response = jsonify({
+    return {
         'error': HTTPStatus.BAD_REQUEST.phrase,
         'message': HTTPStatus.BAD_REQUEST.description
-    })
-    response.status_code = HTTPStatus.BAD_REQUEST.value
-    return response
+    }, HTTPStatus.BAD_REQUEST.value
 
 
 def not_found(e):
-    response = jsonify({
+    return {
         'error': HTTPStatus.NOT_FOUND.phrase,
         'message': HTTPStatus.NOT_FOUND.description
-    })
-    response.status_code = HTTPStatus.NOT_FOUND.value
-    return response
+    }, HTTPStatus.NOT_FOUND.value
 
 
 def method_not_allowed(e):
-    response = jsonify({
+    return {
         'error': HTTPStatus.METHOD_NOT_ALLOWED.phrase,
         'message': HTTPStatus.METHOD_NOT_ALLOWED.description
-    })
-    response.status_code = HTTPStatus.METHOD_NOT_ALLOWED.value
-    return response
+    }, HTTPStatus.METHOD_NOT_ALLOWED.value
 
 
 def internal_server_error(e):
-    response = jsonify({
+    return {
         'error': HTTPStatus.INTERNAL_SERVER_ERROR.phrase,
         'message': HTTPStatus.INTERNAL_SERVER_ERROR.description
-    })
-    response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR.value
-    return response
+    }, HTTPStatus.INTERNAL_SERVER_ERROR.value
 
 def create_api():
     api = Flask(__name__)
@@ -64,7 +56,7 @@ def create_api():
     # TODO: add more error handlers to cover all api excptions
     api.register_error_handler(HTTPStatus.BAD_REQUEST.value, bad_request)
     api.register_error_handler(HTTPStatus.NOT_FOUND.value, not_found)
-    api.register_error_handler(HTTPStatus.NOT_FOUND.value, method_not_allowed)
-    api.register_error_handler(Exception, internal_server_error)
+    api.register_error_handler(HTTPStatus.METHOD_NOT_ALLOWED.value, method_not_allowed)
+    # api.register_error_handler(Exception, internal_server_error)
 
     return api
