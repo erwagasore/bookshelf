@@ -1,9 +1,45 @@
 #+TITLE: Bookshelf
 
 * Setup
+** Database
+Included in the repo is an sqlite database file "bookshelf.db"
+Which contains two books:
+- Title: Hands-on Rust
+- Title: Jacques Prevert Poesie
+
 ** Requirements
 To successfully run this application locally you have to install
 - SQLite
 - Poetry
 
+** Running the app
+- poetry install: Install all dependencies
+- poetry shell: To activate the virtualenv (If not activated already)
+- flask run: To run the application
+
 * API
+** Routes
+- /request
+  Method: POST
+  Params: title, email
+  Requests a book from available books
+
+- /request
+  Method: GET
+  Gets all books in the database
+
+- /Request/<int:id>
+  Method: GET
+  Gets book by id
+
+- /Request/<int:id>
+  Method: DELETE
+  Removes book by id
+
+* Next steps
+I have exhaused the 3 hours here below are things I couldn do next:
+
+- Create and run tests
+- Better error handling and a better error messages you will find TODO flag in
+the code comments
+- Full go through test cases to make sure the application is behaving correctly
